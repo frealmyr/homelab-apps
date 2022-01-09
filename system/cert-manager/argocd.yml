@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cert-manager
+  namespace: argocd
+spec:
+  destination:
+    name: in-cluster
+    namespace: monitoring
+  project: default
+  source:
+    targetRevision: main
+    path: system/cert-manager
+    repoURL: https://github.com/frealmyr/homelab-apps
+    helm:
+      releaseName: cert-manager
+      valueFiles:
+      - default.yaml
+    directory:
+      recurse: false
