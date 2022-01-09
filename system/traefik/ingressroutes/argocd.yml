@@ -26,3 +26,41 @@ spec:
           scheme: h2c
   tls:
     secretName: argocd-server
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: http-redirect
+  namespace: traefik-system
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: HostRegexp(`{host:.+fmlab.no}`)
+      kind: Rule
+      middlewares:
+        - name: https_redirect
+        - name: security
+      services:
+        - name: traefik
+          port: 80
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: traefik-dashboard
+  namespace: traefik-system
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`traefik.fmlab.no`)
+      kind: Rule
+      middlewares:
+        - name: security
+      services:
+        - name: api@internal
+          kind: TraefikService
+  tls:
+    secretName: traefik-dashboard

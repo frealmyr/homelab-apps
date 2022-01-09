@@ -16,5 +16,4 @@ spec:
       releaseName: cert-manager
       valueFiles:
       - default.yaml
-    directory:
-      recurse: false
+
