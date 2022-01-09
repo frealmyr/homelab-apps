@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: traefik
+  name: traefik-forward-auth
   namespace: argocd
 spec:
   destination:
@@ -10,9 +10,5 @@ spec:
   project: default
   source:
     targetRevision: main
-    path: system/traefik
+    path: system/traefik-forward-auth
     repoURL: https://github.com/frealmyr/homelab-apps
-    helm:
-      releaseName: traefik
-      valueFiles:
-      - default.yaml
