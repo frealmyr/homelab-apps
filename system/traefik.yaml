@@ -1,14 +1,19 @@
+---
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: traefik-configs
+  name: traefik
   namespace: argocd
 spec:
   destination:
     name: in-cluster
-    namespace: monitoring
+    namespace: traefik-system
   project: default
   source:
     targetRevision: main
-    path: system/traefik-configs
+    path: system/traefik
     repoURL: https://github.com/frealmyr/homelab-apps
+    helm:
+      releaseName: traefik
+      valueFiles:
+      - default.yaml
