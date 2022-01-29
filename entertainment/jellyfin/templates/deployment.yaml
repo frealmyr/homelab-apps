@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jellyfin
+  labels:
+    app: jellyfin
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jellyfin
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: jellyfin
+    spec:
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        SupplementalGroups:
+          - 44 # Video
+          - 109 # Render
+      hostname: MediaLab
+      containers:
+        - name: jellyfin
+          image: jellyfin/jellyfin:10.7.7
+          ports:
+            - containerPort: 8096
+          volumeMounts:
+            - name: jellyfin-config
+              mountPath: /config
+            - name: ssd2
+              mountPath: /media/SSD2
+      restartPolicy: Always
+      volumes:
+        - name: jellyfin-config
+          persistentVolumeClaim:
+            claimName: jellyfin-config
+        - name: ssd2
+          hostPath:
+            path: /media/SSD2
+            type: Directory

@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: jellyfin
+  namespace: argocd
+spec:
+  destination:
+    name: in-cluster
+    namespace: entertainment
+  project: default
+  source:
+    targetRevision: main
+    path: entertainment/jellyfin
+    repoURL: https://github.com/frealmyr/homelab-apps
+    helm:
+      releaseName: jellyfin
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true

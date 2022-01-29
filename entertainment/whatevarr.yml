@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: whatevarr
+  namespace: argocd
+spec:
+  destination:
+    name: in-cluster
+    namespace: whatevarr
+  project: default
+  source:
+    targetRevision: main
+    path: entertainment/whatevarr
+    repoURL: https://github.com/frealmyr/homelab-apps
+    helm:
+      releaseName: whatevarr
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
