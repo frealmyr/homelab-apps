@@ -23,7 +23,6 @@ spec:
         SupplementalGroups:
           - 44 # Video
           - 109 # Render
-      hostname: MediaLab
       containers:
         - name: jellyfin
           image: jellyfin/jellyfin:10.7.7
